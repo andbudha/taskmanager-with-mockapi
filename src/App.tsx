@@ -1,11 +1,10 @@
 import './App.css';
 
+const styles = {
+  bg: `h-screen w-screen bg-gradient-to-r from-[#2F80ED] to-[#1CB5E0]`,
+};
 function App() {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </div>
-  );
+  return <div className={styles.bg}></div>;
 }
 
 export default App;

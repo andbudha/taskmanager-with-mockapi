@@ -1,1 +1,1 @@
-A Todolist with React + Typecsript and with Firebase v9/CRUD Functionality
+A Todolist App with React + Typecsript, Firebase v9 for backend and Tailwindcss for styling.
