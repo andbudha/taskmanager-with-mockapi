@@ -20,12 +20,16 @@ export const TodoAppList = (props: TodoAppList) => {
   ]);
 
   const checkBoxHandler = (taskID: string) => {
-    todoList.map((task) =>
-      task.id === taskID ? (task.isComplete = true) : false
+    setTodolist(
+      todoList.map((task) =>
+        task.id === taskID ? { ...task, isComplete: true } : task
+      )
     );
-    console.log(taskID);
   };
 
+  const removeTaskHandler = (taskID: string) => {
+    setTodolist(todoList.filter((task) => task.id !== taskID));
+  };
   return (
     <div>
       <ul>
@@ -43,7 +47,7 @@ export const TodoAppList = (props: TodoAppList) => {
                 </div>
                 {task.title}
               </div>
-              <div>
+              <div onClick={() => removeTaskHandler(task.id)}>
                 {' '}
                 <RiDeleteBin5Line className={styles.trashBinIcon} />
               </div>
