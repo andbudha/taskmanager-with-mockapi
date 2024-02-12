@@ -8,17 +8,22 @@ export type TaskType = {
 };
 type InitialSate = {
   todolist: Array<TaskType>;
+  inputValue: string;
 };
 const initialState: InitialSate = {
   todolist: [
     { id: uuidv4(), title: 'LearnJS', isComplete: false },
     { id: uuidv4(), title: 'Learn ReactJS', isComplete: false },
   ],
+  inputValue: '',
 };
 const slice = createSlice({
   name: 'todolist',
   initialState,
   reducers: {
+    updateingInputValue: (state, action: PayloadAction<{ value: string }>) => {
+      state.inputValue = action.payload.value;
+    },
     addTask: (state, action: PayloadAction<{ title: string }>) => {
       const newTask = {
         id: uuidv4(),
