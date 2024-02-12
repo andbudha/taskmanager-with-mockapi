@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 export const store = configureStore({
   reducer: {
-    todolist: todolist,
+    list: todolist,
   },
 });
 
