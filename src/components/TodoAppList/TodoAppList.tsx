@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { MdOutlineDone } from 'react-icons/md';
-import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '../../redux/store';
+import { TaskType, todolistActions } from '../../redux/todolistSlice';
 
 const styles = {
   todoList: ``,
@@ -14,21 +15,15 @@ const styles = {
 };
 type TodoAppList = {};
 export const TodoAppList = (props: TodoAppList) => {
-  const [todoList, setTodolist] = useState([
-    { id: uuidv4(), title: 'LearnJS', isComplete: false },
-    { id: uuidv4(), title: 'Learn ReactJS', isComplete: false },
-  ]);
+  const todoList = useSelector<RootState, TaskType[]>(
+    (state) => state.list.todolist
+  );
+  const dispatch = useAppDispatch();
 
-  const checkBoxHandler = (taskID: string) => {
-    setTodolist(
-      todoList.map((task) =>
-        task.id === taskID ? { ...task, isComplete: true } : task
-      )
-    );
-  };
+  const checkBoxHandler = (taskID: string) => {};
 
   const removeTaskHandler = (taskID: string) => {
-    setTodolist(todoList.filter((task) => task.id !== taskID));
+    dispatch(todolistActions.removeTask({ taskID }));
   };
   return (
     <div>

@@ -1,5 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { GrAdd } from 'react-icons/gr';
+import { useAppDispatch } from '../../redux/store';
+import { todolistActions } from '../../redux/todolistSlice';
 const styles = {
   formBox: `flex justify-between items-center h-[60px]`,
   inputBox: `h-[50px] p-2 w-[290px] rounded tracking-wide`,
@@ -7,6 +9,7 @@ const styles = {
 };
 type TodoAppForm = {};
 export const TodoAppForm = (props: TodoAppForm) => {
+  const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState('');
 
   const inputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +17,10 @@ export const TodoAppForm = (props: TodoAppForm) => {
   };
 
   const addTaskHandler = () => {
-    console.log(inputValue);
+    if (inputValue) {
+      dispatch(todolistActions.addTask({ title: inputValue }));
+    }
+
     setInputValue('');
   };
   return (
