@@ -3,13 +3,14 @@ import { TodoAppList } from '../TodoAppList/TodoAppList';
 
 const styles = {
   box: `container w-96 mx-auto bg-[#e7e5e4] p-5 m-5 rounded-md`,
+  header: `text-center mb-4 tracking-wide`,
 };
-type Props = {};
+type TodoAppContainer = {};
 
-export const TodoAppContainer = (props: Props) => {
+export const TodoAppContainer = (props: TodoAppContainer) => {
   return (
     <div className={styles.box}>
-      <h2>Task Manager</h2>
+      <h2 className={styles.header}>Task Manager</h2>
       <TodoAppForm />
       <TodoAppList />
     </div>
