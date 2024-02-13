@@ -39,9 +39,13 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchTasks.fulfilled, (state, action) => {
-      state.todolist = action.payload?.tasks;
-    });
+    builder
+      .addCase(fetchTasks.fulfilled, (state, action) => {
+        state.todolist = action.payload?.tasks;
+      })
+      .addCase(addTask.fulfilled, (state, action) => {
+        state.todolist.push(action.payload.task);
+      });
   },
 });
 
@@ -56,6 +60,20 @@ const fetchTasks = createAsyncThunk('todos/getTodos', async (_, thunkAPI) => {
   }
 });
 
+const addTask = createAsyncThunk(
+  'todos/addTodo',
+  async (arg: TaskType, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    try {
+      const res = await todolistAPI.postTask(arg);
+      const task = res.data;
+      return { task };
+    } catch (error) {
+      return rejectWithValue(null);
+    }
+  }
+);
+
 export const todolist = slice.reducer;
 export const todolistActions = slice.actions;
-export const tasksThunks = { fetchTasks };
+export const tasksThunks = { fetchTasks, addTask };

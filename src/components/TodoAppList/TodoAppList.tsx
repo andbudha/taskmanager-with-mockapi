@@ -1,8 +1,9 @@
 import { RiDeleteBin5Line } from 'react-icons/ri';
-import { MdOutlineDone } from 'react-icons/md';
+//import { MdOutlineDone } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../redux/store';
 import { TaskType, todolistActions } from '../../redux/todolistSlice';
+import { ChangeEvent } from 'react';
 
 const styles = {
   todoList: ``,
@@ -20,9 +21,12 @@ export const TodoAppList = (props: TodoAppList) => {
   );
   const dispatch = useAppDispatch();
 
-  const checkBoxHandler = (taskID: string) => {};
+  const checkBoxHandler = (
+    e: ChangeEvent<HTMLInputElement>,
+    taskID: number
+  ) => {};
 
-  const removeTaskHandler = (taskID: string) => {
+  const removeTaskHandler = (taskID: number) => {
     dispatch(todolistActions.removeTask({ taskID }));
   };
   return (
@@ -32,14 +36,20 @@ export const TodoAppList = (props: TodoAppList) => {
           return (
             <li key={task.id} className={styles.todo}>
               <div className={styles.checkBoxContainer}>
-                <div
+                <input
+                  className={styles.checkBox}
+                  type="checkbox"
+                  checked={task.isComplete}
+                  onChange={(e) => checkBoxHandler(e, task.id)}
+                />
+                {/* <div
                   className={styles.checkBox}
                   onClick={() => checkBoxHandler(task.id)}
                 >
                   {task.isComplete && (
                     <MdOutlineDone className={styles.doneIcon} />
                   )}
-                </div>
+                </div> */}
                 {task.title}
               </div>
               <div onClick={() => removeTaskHandler(task.id)}>

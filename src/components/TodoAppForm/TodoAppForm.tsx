@@ -1,12 +1,12 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { GrAdd } from 'react-icons/gr';
 import { RootState, useAppDispatch } from '../../redux/store';
-import { todolistActions } from '../../redux/todolistSlice';
+import { tasksThunks, todolistActions } from '../../redux/todolistSlice';
 import { useSelector } from 'react-redux';
 const styles = {
   formBox: `flex justify-between items-center h-[60px]`,
   inputBox: `h-[50px] p-2 w-[290px] rounded tracking-wide`,
-  formButton: `flex justify-center items-center	h-[50px] w-[50px] bg-[#f97316] rounded`,
+  formButton: `flex justify-center items-center	h-[50px] w-[50px] bg-[#f97316] rounded ml-2`,
 };
 type TodoAppForm = {};
 export const TodoAppForm = (props: TodoAppForm) => {
@@ -17,16 +17,21 @@ export const TodoAppForm = (props: TodoAppForm) => {
 
   const inputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(
-      todolistActions.updateingInputValue({ value: e.currentTarget.value })
+      todolistActions.updateInputValue({ value: e.currentTarget.value })
     );
   };
 
   const addTaskHandler = () => {
+    const newTask = {
+      id: 0,
+      title: inputValue,
+      isComplete: false,
+    };
     if (inputValue) {
-      dispatch(todolistActions.addTask({ title: inputValue }));
+      dispatch(tasksThunks.addTask(newTask));
     }
 
-    dispatch(todolistActions.updateingInputValue({ value: '' }));
+    dispatch(todolistActions.updateInputValue({ value: '' }));
   };
   return (
     <div>
