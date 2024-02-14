@@ -8,8 +8,7 @@ const styles = {
   inputBox: `h-[50px] p-2 w-[290px] rounded tracking-wide`,
   formButton: `flex justify-center items-center	h-[50px] w-[50px] bg-[#f97316] rounded ml-2`,
 };
-type TodoAppForm = {};
-export const TodoAppForm = (props: TodoAppForm) => {
+export const TodoAppForm = () => {
   const dispatch = useAppDispatch();
   const inputValue = useSelector<RootState, string>(
     (state) => state.list.inputValue
