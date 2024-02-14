@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { todolistAPI } from '../api/todolistapi';
+import { UpdateTaskStatusArg, todolistAPI } from '../api/todolistapi';
 
 export type TaskType = {
   id: number;
@@ -21,22 +21,6 @@ const slice = createSlice({
     updateInputValue: (state, action: PayloadAction<{ value: string }>) => {
       state.inputValue = action.payload.value;
     },
-    removeTask: (state, action: PayloadAction<{ taskID: number }>) => {
-      const index = state.todolist.findIndex(
-        (todo) => todo.id === action.payload.taskID
-      );
-      if (index !== -1) state.todolist.splice(index, 1);
-    },
-    changeTaskStatus: (
-      state,
-      action: PayloadAction<{ value: boolean; taskID: number }>
-    ) => {
-      state.todolist = state.todolist.map((task) =>
-        task.id === action.payload.taskID
-          ? { ...task, isComplete: !action.payload.value }
-          : task
-      );
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -45,6 +29,19 @@ const slice = createSlice({
       })
       .addCase(addTask.fulfilled, (state, action) => {
         state.todolist.push(action.payload.task);
+      })
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        const index = state.todolist.findIndex(
+          (task) => task.id === action.payload.id
+        );
+        if (index !== -1) state.todolist.splice(index, 1);
+      })
+      .addCase(updateTaskStatus.fulfilled, (state, action) => {
+        const index = state.todolist.findIndex(
+          (task) => task.id === action.payload.id
+        );
+        if (index !== -1)
+          state.todolist[index].isComplete = action.payload.isComplete;
       });
   },
 });
@@ -73,7 +70,36 @@ const addTask = createAsyncThunk(
     }
   }
 );
+const deleteTask = createAsyncThunk(
+  'todos/deleteTodo',
+  async (taskID: number, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    try {
+      const res = await todolistAPI.deleteTask(taskID);
+      const id = res.data;
+      return { id };
+    } catch (error) {
+      return rejectWithValue(null);
+    }
+  }
+);
+const updateTaskStatus = createAsyncThunk<TaskType, UpdateTaskStatusArg>(
+  'todos/updateTodo',
+  async (arg, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    try {
+      const res = await todolistAPI.updateTaskStatus(arg);
+      const task = res.data;
+      return { task };
+    } catch (error) {}
+  }
+);
 
 export const todolist = slice.reducer;
 export const todolistActions = slice.actions;
-export const tasksThunks = { fetchTasks, addTask };
+export const tasksThunks = {
+  fetchTasks,
+  addTask,
+  deleteTask,
+  updateTaskStatus,
+};
