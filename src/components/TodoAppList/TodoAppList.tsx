@@ -1,8 +1,10 @@
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../redux/store';
-import { TaskType, tasksThunks } from '../../redux/todolistSlice';
-import { ChangeEvent, useEffect } from 'react';
+
+import { TaskType } from '../../features/common/types';
+import { tasksThunks } from '../../redux/todolistSlice';
+import { ChangeEvent } from 'react';
 
 const styles = {
   todoList: ``,
@@ -16,21 +18,25 @@ const styles = {
 
 export const TodoAppList = () => {
   const todoList = useSelector<RootState, TaskType[]>(
-    (state) => state.list.todolist
+    (state) => state.todolist.todolist
   );
+
   const dispatch = useAppDispatch();
 
-  useEffect(() => {}, [todoList]);
   const checkBoxHandler = (
-    e: ChangeEvent<HTMLInputElement>,
-    taskID: number
+    event: ChangeEvent<HTMLInputElement>,
+    taskId: number
   ) => {
-    const newValue = e.currentTarget.checked;
-    dispatch(tasksThunks.updateTaskStatus({ value: newValue, taskID }));
+    dispatch(
+      tasksThunks.updateTaskStatus({
+        value: event.currentTarget.checked,
+        taskID: taskId,
+      })
+    );
   };
 
-  const removeTaskHandler = (taskID: number) => {
-    dispatch(tasksThunks.deleteTask(taskID));
+  const removeTaskHandler = (taskId: number) => {
+    dispatch(tasksThunks.deleteTask(taskId));
   };
   return (
     <div>
@@ -43,7 +49,7 @@ export const TodoAppList = () => {
                   className={styles.checkBox}
                   type="checkbox"
                   checked={task.isComplete}
-                  onChange={(e) => checkBoxHandler(e, task.id)}
+                  onChange={(event) => checkBoxHandler(event, task.id)}
                 />
                 {task.title}
               </div>

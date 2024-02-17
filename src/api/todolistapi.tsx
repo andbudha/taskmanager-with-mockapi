@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TaskType } from '../redux/todolistSlice';
+import { TaskType, UpdateTaskStatusArg } from '../features/common/types';
 
 export const todolistAPI = {
   getTasks: () => {
@@ -7,15 +7,15 @@ export const todolistAPI = {
       'https://65cc8f82dd519126b83ee44f.mockapi.io/api/1/todos'
     );
   },
-  postTask: (arg: TaskType) => {
-    return axios.post(
+  addTask: (arg: TaskType) => {
+    return axios.post<TaskType>(
       'https://65cc8f82dd519126b83ee44f.mockapi.io/api/1/todos',
       { ...arg }
     );
   },
-  deleteTask: (taskID: number) => {
+  deleteTask: (taskId: number) => {
     return axios.delete(
-      `https://65cc8f82dd519126b83ee44f.mockapi.io/api/1/todos/${taskID}`
+      `https://65cc8f82dd519126b83ee44f.mockapi.io/api/1/todos/${taskId}`
     );
   },
   updateTaskStatus: (arg: UpdateTaskStatusArg) => {
@@ -24,9 +24,4 @@ export const todolistAPI = {
       { isComplete: arg.value }
     );
   },
-};
-
-export type UpdateTaskStatusArg = {
-  value: boolean;
-  taskID: number;
 };

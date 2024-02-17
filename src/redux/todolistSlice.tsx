@@ -1,19 +1,16 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { UpdateTaskStatusArg, todolistAPI } from '../api/todolistapi';
+import { todolistAPI } from '../api/todolistapi';
+import {
+  InitialSate,
+  TaskType,
+  UpdateTaskStatusArg,
+} from '../features/common/types';
 
-export type TaskType = {
-  id: number;
-  title: string;
-  isComplete: boolean;
-};
-type InitialSate = {
-  todolist: Array<TaskType>;
-  inputValue: string;
-};
 const initialState: InitialSate = {
   todolist: [] as TaskType[],
   inputValue: '',
 };
+
 const slice = createSlice({
   name: 'todolist',
   initialState,
@@ -25,77 +22,73 @@ const slice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchTasks.fulfilled, (state, action) => {
-        state.todolist = action.payload?.tasks;
+        if (action.payload) {
+          state.todolist = action.payload;
+        }
       })
       .addCase(addTask.fulfilled, (state, action) => {
-        state.todolist.push(action.payload.task);
+        if (action.payload) {
+          state.todolist.push(action.payload);
+        }
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
         const index = state.todolist.findIndex(
-          (task) => task.id === action.payload.id
+          (task) => task.id === action.payload?.id
         );
         if (index !== -1) state.todolist.splice(index, 1);
       })
       .addCase(updateTaskStatus.fulfilled, (state, action) => {
         const index = state.todolist.findIndex(
-          (task) => task.id === action.payload.id
+          (task) => task.id === action.payload?.id
         );
-        if (index !== -1)
-          state.todolist[index].isComplete = action.payload.isComplete;
+        if (index !== -1 && action.payload) {
+          state.todolist[index].isComplete = action.payload?.isComplete;
+        }
       });
   },
 });
 
-const fetchTasks = createAsyncThunk('todos/getTodos', async (_, thunkAPI) => {
-  const { dispatch, rejectWithValue } = thunkAPI;
+const fetchTasks = createAsyncThunk('todos/getTodos', async () => {
   try {
     const res = await todolistAPI.getTasks();
     const tasks = res.data;
-    return { tasks };
-  } catch (error) {
-    return rejectWithValue(null);
-  }
+    console.log(tasks);
+    return tasks;
+  } catch (error) {}
 });
 
-const addTask = createAsyncThunk(
-  'todos/addTodo',
-  async (arg: TaskType, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI;
-    try {
-      const res = await todolistAPI.postTask(arg);
-      const task = res.data;
-      return { task };
-    } catch (error) {
-      return rejectWithValue(null);
-    }
-  }
-);
+const addTask = createAsyncThunk('todos/addTodo', async (arg: TaskType) => {
+  try {
+    const res = await todolistAPI.addTask(arg);
+    const task = res.data;
+    return task;
+  } catch (error) {}
+});
+
 const deleteTask = createAsyncThunk(
-  'todos/deleteTodo',
-  async (taskID: number, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI;
+  'todos/deleteTask',
+  async (taskId: number) => {
     try {
-      const res = await todolistAPI.deleteTask(taskID);
-      const id = res.data;
+      const res = await todolistAPI.deleteTask(taskId);
+      const id = res.data.id;
+      console.log(id);
+
       return { id };
-    } catch (error) {
-      return rejectWithValue(null);
-    }
-  }
-);
-const updateTaskStatus = createAsyncThunk<TaskType, UpdateTaskStatusArg>(
-  'todos/updateTodo',
-  async (arg, thunkAPI) => {
-    const { dispatch } = thunkAPI;
-    try {
-      const res = await todolistAPI.updateTaskStatus(arg);
-      const task = res.data;
-      return { task };
     } catch (error) {}
   }
 );
 
-export const todolist = slice.reducer;
+const updateTaskStatus = createAsyncThunk(
+  'todos/updateTaskStatus',
+  async (arg: UpdateTaskStatusArg) => {
+    try {
+      const res = await todolistAPI.updateTaskStatus(arg);
+      const task = res.data;
+      return task;
+    } catch (error) {}
+  }
+);
+export const todolistReducer = slice.reducer;
 export const todolistActions = slice.actions;
 export const tasksThunks = {
   fetchTasks,

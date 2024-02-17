@@ -11,7 +11,7 @@ const styles = {
 export const TodoAppForm = () => {
   const dispatch = useAppDispatch();
   const inputValue = useSelector<RootState, string>(
-    (state) => state.list.inputValue
+    (state) => state.todolist.inputValue
   );
 
   const inputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
