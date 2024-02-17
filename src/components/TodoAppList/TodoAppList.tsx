@@ -5,9 +5,10 @@ import { RootState, useAppDispatch } from '../../redux/store';
 import { TaskType } from '../../features/common/types';
 import { tasksThunks } from '../../redux/todolistSlice';
 import { ChangeEvent } from 'react';
+import BarLoader from '../Loaders/BarLoader/BarLoader';
 
 const styles = {
-  todoList: ``,
+  list: `relative`,
   todo: `flex items-center justify-between h-[50px] w-[100%] bg-[#f4f4f5] my-2 p-3 rounded tracking-wide`,
   checkBoxContainer: `flex items-center`,
   checkBox: `w-[20px] h-[20px] mr-2 border-2 border-slate-400 rounded cursor-pointer`,
@@ -19,6 +20,9 @@ const styles = {
 export const TodoAppList = () => {
   const todoList = useSelector<RootState, TaskType[]>(
     (state) => state.todolist.todolist
+  );
+  const isLoadingAlteredTask = useSelector<RootState, boolean>(
+    (state) => state.todolist.isLoadingAlteredTask
   );
 
   const dispatch = useAppDispatch();
@@ -40,24 +44,33 @@ export const TodoAppList = () => {
   };
   return (
     <div>
-      <ul>
+      <ul className={styles.list}>
         {todoList.map((task) => {
           return (
-            <li key={task.id} className={styles.todo}>
-              <div className={styles.checkBoxContainer}>
-                <input
-                  className={styles.checkBox}
-                  type="checkbox"
-                  checked={task.isComplete}
-                  onChange={(event) => checkBoxHandler(event, task.id)}
-                />
-                {task.title}
-              </div>
-              <div onClick={() => removeTaskHandler(task.id)}>
-                {' '}
-                <RiDeleteBin5Line className={styles.trashBinIcon} />
-              </div>
-            </li>
+            <>
+              {isLoadingAlteredTask ? (
+                <li key={task.id} className={styles.todo}>
+                  {' '}
+                  <BarLoader />
+                </li>
+              ) : (
+                <li key={task.id} className={styles.todo}>
+                  <div className={styles.checkBoxContainer}>
+                    <input
+                      className={styles.checkBox}
+                      type="checkbox"
+                      checked={task.isComplete}
+                      onChange={(event) => checkBoxHandler(event, task.id)}
+                    />
+                    {task.title}
+                  </div>
+                  <div onClick={() => removeTaskHandler(task.id)}>
+                    {' '}
+                    <RiDeleteBin5Line className={styles.trashBinIcon} />
+                  </div>
+                </li>
+              )}
+            </>
           );
         })}
       </ul>

@@ -10,6 +10,8 @@ const initialState: InitialSate = {
   todolist: [] as TaskType[],
   inputValue: '',
   isLoading: false,
+  isLoadingAddTask: false,
+  isLoadingAlteredTask: false,
 };
 
 const slice = createSlice({
@@ -31,18 +33,30 @@ const slice = createSlice({
           state.todolist = action.payload;
         }
       })
+      .addCase(addTask.pending, (state) => {
+        state.isLoadingAddTask = true;
+      })
       .addCase(addTask.fulfilled, (state, action) => {
+        state.isLoadingAddTask = false;
         if (action.payload) {
           state.todolist.push(action.payload);
         }
       })
+      .addCase(deleteTask.pending, (state) => {
+        state.isLoadingAlteredTask = true;
+      })
       .addCase(deleteTask.fulfilled, (state, action) => {
+        state.isLoadingAlteredTask = false;
         const index = state.todolist.findIndex(
           (task) => task.id === action.payload?.id
         );
         if (index !== -1) state.todolist.splice(index, 1);
       })
+      .addCase(updateTaskStatus.pending, (state) => {
+        state.isLoadingAlteredTask = true;
+      })
       .addCase(updateTaskStatus.fulfilled, (state, action) => {
+        state.isLoadingAlteredTask = false;
         const index = state.todolist.findIndex(
           (task) => task.id === action.payload?.id
         );

@@ -7,6 +7,8 @@ export type InitialSate = {
   todolist: TaskType[];
   inputValue: string;
   isLoading: boolean;
+  isLoadingAddTask: boolean;
+  isLoadingAlteredTask: boolean;
 };
 
 export type UpdateTaskStatusArg = {
