@@ -1,1 +1,1 @@
-A Todolist App with React + Typecsript, Firebase v9 for backend and Tailwindcss for styling.
+A Todolist App with React + Typecsript, mockapi for backend and Tailwindcss for styling.
