@@ -5,7 +5,7 @@ import { useAppDispatch } from './redux/store';
 import { tasksThunks } from './redux/todolistSlice';
 
 const styles = {
-  bg: `h-screen w-screen bg-gradient-to-r from-[#2F80ED] to-[#1CB5E0] p-5`,
+  bg: `h-screen w-screen flex justify-center items-center bg-gradient-to-r from-[#2F80ED] to-[#1CB5E0]`,
 };
 function App() {
   const dispatch = useAppDispatch();

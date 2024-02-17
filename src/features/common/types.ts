@@ -6,6 +6,7 @@ export type TaskType = {
 export type InitialSate = {
   todolist: TaskType[];
   inputValue: string;
+  isLoading: boolean;
 };
 
 export type UpdateTaskStatusArg = {

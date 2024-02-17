@@ -9,6 +9,7 @@ import {
 const initialState: InitialSate = {
   todolist: [] as TaskType[],
   inputValue: '',
+  isLoading: false,
 };
 
 const slice = createSlice({
@@ -21,7 +22,11 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchTasks.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(fetchTasks.fulfilled, (state, action) => {
+        state.isLoading = false;
         if (action.payload) {
           state.todolist = action.payload;
         }
