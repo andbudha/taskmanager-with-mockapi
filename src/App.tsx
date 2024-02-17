@@ -11,7 +11,7 @@ function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(tasksThunks.fetchTasks());
-  }, []);
+  }, [dispatch]);
   return (
     <div className={styles.bg}>
       <TodoAppContainer />

@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { todolist } from './todolistSlice';
+
 import { useDispatch } from 'react-redux';
+import { todolistReducer } from './todolistSlice';
 
 export const store = configureStore({
   reducer: {
-    list: todolist,
+    todolist: todolistReducer,
   },
 });
 
