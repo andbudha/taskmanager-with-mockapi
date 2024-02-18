@@ -48,9 +48,11 @@ const slice = createSlice({
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.isLoadingAlteredTask = false;
         const index = state.todolist.findIndex(
-          (task) => task.id === action.payload?.id
+          (task) => task.id === action.payload?.taskId
         );
-        if (index !== -1) state.todolist.splice(index, 1);
+        if (action.payload?.status === 200 && index !== -1) {
+          state.todolist.splice(index, 1);
+        }
       })
       .addCase(updateTaskStatus.pending, (state) => {
         state.isLoadingAlteredTask = true;
@@ -88,10 +90,8 @@ const deleteTask = createAsyncThunk(
   async (taskId: number) => {
     try {
       const res = await todolistAPI.deleteTask(taskId);
-      const id = res.data.id;
-      console.log(id);
-
-      return { id };
+      const status = res.status;
+      return { taskId, status };
     } catch (error) {}
   }
 );
