@@ -4,8 +4,8 @@ import { RootState, useAppDispatch } from '../../redux/store';
 import { tasksThunks, todolistActions } from '../../redux/todolistSlice';
 import { useSelector } from 'react-redux';
 const styles = {
-  formBox: `flex justify-between items-center h-[60px]`,
-  inputBox: `h-[50px] p-2 w-[290px] rounded tracking-wide`,
+  formBox: `flex justify-between items-center h-[60px] `,
+  inputBox: `h-[50px] p-2 w-[290px] rounded tracking-wider border border-[#f97316] outline-[#f97316] `,
   formButton: `flex justify-center items-center	h-[50px] w-[50px] bg-[#f97316] rounded ml-2`,
 };
 export const TodoAppForm = () => {

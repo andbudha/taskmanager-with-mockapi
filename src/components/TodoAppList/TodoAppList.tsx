@@ -8,11 +8,11 @@ import BarLoader from '../Loaders/BarLoader/BarLoader';
 
 const styles = {
   list: `relative`,
-  todo: `flex items-center justify-between h-[50px] w-[100%] bg-[#f4f4f5] my-2 p-3 rounded tracking-wide`,
+  todo: `flex items-center justify-between h-[50px] w-[100%] bg-[#f4f4f5] my-2 p-3 rounded tracking-wide border border-[#f97316]`,
   checkBoxContainer: `flex items-center`,
   checkBox: `w-[20px] h-[20px] mr-2 border-2 border-slate-400 rounded cursor-pointer`,
   doneIcon: `font-bold`,
-  trashBinIcon: `h-[22px] w-[22px] cursor-pointer`,
+  trashBinIcon: `h-[22px] w-[22px] cursor-pointer text-[#f97316]`,
   info: `text-center mt-4 tracking-wide`,
 };
 
@@ -25,7 +25,6 @@ export const TodoAppList = () => {
   const isLoadingAlteredTask = useSelector<RootState, boolean>(
     (state) => state.todolist.isLoadingAlteredTask
   );
-  console.log(alteredTaskId);
 
   const checkBoxHandler = (
     event: ChangeEvent<HTMLInputElement>,
@@ -44,6 +43,7 @@ export const TodoAppList = () => {
     setAlteredTaskId(taskId);
     dispatch(tasksThunks.deleteTask(taskId));
   };
+
   return (
     <div>
       <ul className={styles.list}>
@@ -77,6 +77,8 @@ export const TodoAppList = () => {
         })}
       </ul>
       <div className={styles.info}>
+        <div></div>
+
         <h2>{`You have got ${todoList.length} tasks`}</h2>
       </div>
     </div>
