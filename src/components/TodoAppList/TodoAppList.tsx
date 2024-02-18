@@ -25,7 +25,6 @@ export const TodoAppList = () => {
   const isLoadingAlteredTask = useSelector<RootState, boolean>(
     (state) => state.todolist.isLoadingAlteredTask
   );
-
   const checkBoxHandler = (
     event: ChangeEvent<HTMLInputElement>,
     taskId: number
@@ -77,8 +76,6 @@ export const TodoAppList = () => {
         })}
       </ul>
       <div className={styles.info}>
-        <div></div>
-
         <h2>{`You have got ${todoList.length} tasks`}</h2>
       </div>
     </div>
