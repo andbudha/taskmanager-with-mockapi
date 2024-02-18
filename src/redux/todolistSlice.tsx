@@ -71,7 +71,6 @@ const fetchTasks = createAsyncThunk('todos/getTodos', async () => {
   try {
     const res = await todolistAPI.getTasks();
     const tasks = res.data;
-    console.log(tasks);
     return tasks;
   } catch (error) {}
 });

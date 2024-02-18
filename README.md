@@ -1,1 +1,1 @@
-A Todolist App with React + Typecsript, mockapi for backend and Tailwindcss for styling.
+A Todolist App with React + Typecsript, MOKKY.DEV for backend and Tailwindcss for styling.

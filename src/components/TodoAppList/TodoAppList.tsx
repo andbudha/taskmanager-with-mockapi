@@ -47,14 +47,14 @@ export const TodoAppList = () => {
       <ul className={styles.list}>
         {todoList.map((task) => {
           return (
-            <>
+            <div key={task.id}>
               {isLoadingAlteredTask ? (
-                <li key={task.id} className={styles.todo}>
+                <li className={styles.todo}>
                   {' '}
                   <BarLoader />
                 </li>
               ) : (
-                <li key={task.id} className={styles.todo}>
+                <li className={styles.todo}>
                   <div className={styles.checkBoxContainer}>
                     <input
                       className={styles.checkBox}
@@ -70,7 +70,7 @@ export const TodoAppList = () => {
                   </div>
                 </li>
               )}
-            </>
+            </div>
           );
         })}
       </ul>
