@@ -5,6 +5,7 @@ import {
   TaskType,
   UpdateTaskStatusArg,
 } from '../features/common/types';
+import { errorMessage } from '../features/utils/errorMessage';
 
 const initialState: InitialSate = {
   todolist: [] as TaskType[],
@@ -92,7 +93,13 @@ const deleteTask = createAsyncThunk(
       const res = await todolistAPI.deleteTask(taskId);
       const status = res.status;
       return { taskId, status };
-    } catch (error) {}
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      } else if (error && typeof error === 'object' && 'message' in error) {
+        console.log(error.message);
+      }
+    }
   }
 );
 
@@ -104,7 +111,9 @@ const updateTaskStatus = createAsyncThunk(
       const task = res.data;
       const taskId = res.data.id;
       return { task, taskId };
-    } catch (error) {}
+    } catch (error: unknown) {
+      console.log(errorMessage(error));
+    }
   }
 );
 export const todolistReducer = slice.reducer;
