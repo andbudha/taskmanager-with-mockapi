@@ -60,10 +60,10 @@ const slice = createSlice({
       .addCase(updateTaskStatus.fulfilled, (state, action) => {
         state.isLoadingAlteredTask = false;
         const index = state.todolist.findIndex(
-          (task) => task.id === action.payload?.id
+          (task) => task.id === action.payload?.task.id
         );
         if (index !== -1 && action.payload) {
-          state.todolist[index].isComplete = action.payload?.isComplete;
+          state.todolist[index].isComplete = action.payload?.task.isComplete;
         }
       });
   },
@@ -102,7 +102,8 @@ const updateTaskStatus = createAsyncThunk(
     try {
       const res = await todolistAPI.updateTaskStatus(arg);
       const task = res.data;
-      return task;
+      const taskId = res.data.id;
+      return { task, taskId };
     } catch (error) {}
   }
 );

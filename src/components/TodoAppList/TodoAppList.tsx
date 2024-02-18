@@ -1,10 +1,9 @@
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../redux/store';
-
 import { TaskType } from '../../features/common/types';
 import { tasksThunks } from '../../redux/todolistSlice';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import BarLoader from '../Loaders/BarLoader/BarLoader';
 
 const styles = {
@@ -18,19 +17,21 @@ const styles = {
 };
 
 export const TodoAppList = () => {
+  const dispatch = useAppDispatch();
+  const [alteredTaskId, setAlteredTaskId] = useState<number>(0);
   const todoList = useSelector<RootState, TaskType[]>(
     (state) => state.todolist.todolist
   );
   const isLoadingAlteredTask = useSelector<RootState, boolean>(
     (state) => state.todolist.isLoadingAlteredTask
   );
-
-  const dispatch = useAppDispatch();
+  console.log(alteredTaskId);
 
   const checkBoxHandler = (
     event: ChangeEvent<HTMLInputElement>,
     taskId: number
   ) => {
+    setAlteredTaskId(taskId);
     dispatch(
       tasksThunks.updateTaskStatus({
         value: event.currentTarget.checked,
@@ -40,6 +41,7 @@ export const TodoAppList = () => {
   };
 
   const removeTaskHandler = (taskId: number) => {
+    setAlteredTaskId(taskId);
     dispatch(tasksThunks.deleteTask(taskId));
   };
   return (
@@ -48,7 +50,7 @@ export const TodoAppList = () => {
         {todoList.map((task) => {
           return (
             <div key={task.id}>
-              {isLoadingAlteredTask ? (
+              {isLoadingAlteredTask && task.id === alteredTaskId ? (
                 <li className={styles.todo}>
                   {' '}
                   <BarLoader />
