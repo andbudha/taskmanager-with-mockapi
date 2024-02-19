@@ -6,8 +6,8 @@ import { SpinningLoader } from '../Loaders/SpinningLoader/SpinningLoader';
 
 const styles = {
   loaderBox: 'h-screen w-screen	flex justify-center items-center',
-  box: `container w-96 mx-auto bg-[#e7e5e4] p-5 rounded-md `,
-  header: `text-center mb-4 tracking-wide text-2xl`,
+  box: `container w-80 sm:w-80 md:w-96 lg:w-96 mx-auto bg-[#e7e5e4] p-5 rounded-md `,
+  header: `text-center mb-4 tracking-wide text-2xl text-[#09090b]`,
   listLoaderBox: `flex justify-center items-center h-[150px] w-[100%]`,
 };
 

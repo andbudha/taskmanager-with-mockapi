@@ -8,12 +8,12 @@ import BarLoader from '../Loaders/BarLoader/BarLoader';
 
 const styles = {
   list: `relative`,
-  todo: `flex items-center justify-between h-[50px] w-[100%] bg-[#f4f4f5] my-2 p-3 rounded tracking-wide border border-[#f97316]`,
+  todo: `flex items-center justify-between h-[50px] w-[100%] bg-[#f4f4f5] my-2 p-3 rounded tracking-wide border border-[#f97316] text-[#09090b]`,
   checkBoxContainer: `flex items-center`,
-  checkBox: `w-[20px] h-[20px] mr-2 border-2 border-slate-400 rounded cursor-pointer`,
+  checkBox: `w-[20px] h-[20px] mr-2 border-2 border-slate-400 cursor-pointer accent-[#f97316]`,
   doneIcon: `font-bold`,
-  trashBinIcon: `h-[22px] w-[22px] cursor-pointer text-[#f97316]`,
-  info: `text-center mt-4 tracking-wide`,
+  trashBinIcon: `h-[22px] w-[22px] cursor-pointer text-[#09090b]`,
+  info: `text-center mt-4 tracking-wide text-[#09090b]`,
 };
 
 export const TodoAppList = () => {

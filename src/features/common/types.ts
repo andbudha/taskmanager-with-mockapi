@@ -9,8 +9,6 @@ export type InitialSate = {
   isLoading: boolean;
   isLoadingAddTask: boolean;
   isLoadingAlteredTask: boolean;
-  error: boolean;
-  errorMessage: string;
 };
 
 export type UpdateTaskStatusArg = {

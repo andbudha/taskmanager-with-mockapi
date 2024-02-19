@@ -14,8 +14,6 @@ const initialState: InitialSate = {
   isLoading: false,
   isLoadingAddTask: false,
   isLoadingAlteredTask: false,
-  error: false,
-  errorMessage: '',
 };
 
 const slice = createSlice({
