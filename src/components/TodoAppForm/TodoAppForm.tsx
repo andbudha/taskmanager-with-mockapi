@@ -1,8 +1,10 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, KeyboardEvent } from 'react';
 import { GrAdd } from 'react-icons/gr';
 import { RootState, useAppDispatch } from '../../redux/store';
 import { tasksThunks, todolistActions } from '../../redux/todolistSlice';
 import { useSelector } from 'react-redux';
+import { errorToast } from '../../features/utils/errorToast';
+import { TaskType } from '../../features/common/types';
 const styles = {
   formBox: `flex justify-between items-center h-[60px] `,
   inputBox: `h-[50px] p-2 w-[290px] rounded tracking-wider border border-[#f97316] outline-[#f97316] `,
@@ -14,23 +16,34 @@ export const TodoAppForm = () => {
     (state) => state.todolist.inputValue
   );
 
+  const newTask: TaskType = {
+    id: 0,
+    title: inputValue,
+    isComplete: false,
+  };
+
   const inputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(
       todolistActions.updateInputValue({ value: e.currentTarget.value })
     );
   };
 
-  const addTaskHandler = () => {
-    const newTask = {
-      id: 0,
-      title: inputValue,
-      isComplete: false,
-    };
+  const onClickAddTaskHandler = () => {
     if (inputValue) {
       dispatch(tasksThunks.addTask(newTask));
+    } else {
+      errorToast('Type in a task, please!');
     }
-
     dispatch(todolistActions.updateInputValue({ value: '' }));
+  };
+
+  const onEnterAddTaskHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && inputValue) {
+      dispatch(tasksThunks.addTask(newTask));
+      dispatch(todolistActions.updateInputValue({ value: '' }));
+    } else if (event.key === 'Enter' && !inputValue) {
+      errorToast('Type in a task, please!');
+    }
   };
   return (
     <div>
@@ -41,8 +54,9 @@ export const TodoAppForm = () => {
           type="text"
           placeholder="Add new task..."
           onChange={inputValueHandler}
+          onKeyDown={onEnterAddTaskHandler}
         />
-        <button className={styles.formButton} onClick={addTaskHandler}>
+        <button className={styles.formButton} onClick={onClickAddTaskHandler}>
           <GrAdd />
         </button>
       </div>

@@ -6,7 +6,7 @@ import {
   UpdateTaskStatusArg,
 } from '../features/common/types';
 import { errorMessage } from '../features/utils/errorMessage';
-import { toast, Flip } from 'react-toastify';
+import { errorToast } from '../features/utils/errorToast';
 
 const initialState: InitialSate = {
   todolist: [] as TaskType[],
@@ -26,19 +26,7 @@ const slice = createSlice({
       state.inputValue = action.payload.value;
     },
     setError: (_, action: PayloadAction<{ errMsg: string }>) => {
-      console.log(action.payload.errMsg);
-
-      toast.error(action.payload.errMsg, {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-        transition: Flip,
-      });
+      errorToast(action.payload.errMsg);
     },
   },
   extraReducers: (builder) => {
