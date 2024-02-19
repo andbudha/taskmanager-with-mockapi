@@ -1,22 +1,25 @@
 import axios from 'axios';
 import { TaskType, UpdateTaskStatusArg } from '../features/common/types';
 
+const instance = axios.create({
+  baseURL: 'https://8dfcc811d3e9872d.mokky.dev/todos',
+});
+
 export const todolistAPI = {
   getTasks: () => {
-    return axios.get<TaskType[]>('https://8dfcc811d3e9872d.mokky.dev/todos');
+    return instance.get<TaskType[]>('');
   },
   addTask: (arg: TaskType) => {
-    return axios.post<TaskType>('https://8dfcc811d3e9872d.mokky.dev/todos', {
+    return instance.post<TaskType>('', {
       ...arg,
     });
   },
   deleteTask: (taskId: number) => {
-    return axios.delete(`https://8dfcc811d3e9872d.mokky.dev/todos/${taskId}`);
+    return instance.delete(`/${taskId}`);
   },
   updateTaskStatus: (arg: UpdateTaskStatusArg) => {
-    return axios.patch<TaskType>(
-      `https://8dfcc811d3e9872d.mokky.dev/todos/${arg.taskID}`,
-      { isComplete: arg.value }
-    );
+    return instance.patch<TaskType>(`/${arg.taskID}`, {
+      isComplete: arg.value,
+    });
   },
 };
