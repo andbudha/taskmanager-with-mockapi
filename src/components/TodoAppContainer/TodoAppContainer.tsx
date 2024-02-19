@@ -3,13 +3,7 @@ import { TodoAppForm } from '../TodoAppForm/TodoAppForm';
 import { TodoAppList } from '../TodoAppList/TodoAppList';
 import { RootState } from '../../redux/store';
 import { SpinningLoader } from '../Loaders/SpinningLoader/SpinningLoader';
-
-const styles = {
-  loaderBox: 'h-screen w-screen	flex justify-center items-center',
-  box: `container w-80 sm:w-80 md:w-96 lg:w-96 mx-auto bg-[#e7e5e4] p-5 rounded-md `,
-  header: `text-center mb-4 tracking-wide text-2xl text-[#09090b]`,
-  listLoaderBox: `flex justify-center items-center h-[150px] w-[100%]`,
-};
+import { styles } from '../../features/tailwindcss-styles/tailwindcss';
 
 export const TodoAppContainer = () => {
   const isLoading = useSelector<RootState, boolean>(
@@ -21,7 +15,7 @@ export const TodoAppContainer = () => {
 
   if (isLoading) {
     return (
-      <div className={styles.loaderBox}>
+      <div className={styles.todoAppContainer.loaderBox}>
         <SpinningLoader />
       </div>
     );
@@ -29,16 +23,16 @@ export const TodoAppContainer = () => {
   return (
     <>
       {isLoadingAddTask ? (
-        <div className={styles.box}>
-          <h2 className={styles.header}>Task Manager</h2>
+        <div className={styles.todoAppContainer.box}>
+          <h2 className={styles.todoAppContainer.header}>Task Manager</h2>
           <TodoAppForm />
-          <div className={styles.listLoaderBox}>
+          <div className={styles.todoAppContainer.listLoaderBox}>
             <SpinningLoader />
           </div>
         </div>
       ) : (
-        <div className={styles.box}>
-          <h2 className={styles.header}>Task Manager</h2>
+        <div className={styles.todoAppContainer.box}>
+          <h2 className={styles.todoAppContainer.header}>Task Manager</h2>
           <TodoAppForm />
           <TodoAppList />
         </div>

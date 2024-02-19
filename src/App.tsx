@@ -5,17 +5,15 @@ import { useAppDispatch } from './redux/store';
 import { tasksThunks } from './redux/todolistSlice';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { styles } from './features/tailwindcss-styles/tailwindcss';
 
-const styles = {
-  bg: `h-screen w-screen flex justify-center items-center bg-gradient-to-r from-[#2F80ED] to-[#1CB5E0]`,
-};
 function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(tasksThunks.fetchTasks());
   }, [dispatch]);
   return (
-    <div className={styles.bg}>
+    <div className={styles.app.bg}>
       <ToastContainer />
       <TodoAppContainer />
     </div>
